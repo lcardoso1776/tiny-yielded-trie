@@ -41,3 +41,10 @@ All methods throw a `TypeError` if given a non-string argument.
 ## Edge case worth knowing
 
 Deleting a word that is itself a prefix of another word (for example `app` when `apple` is also present) removes only the terminal marker; the branch stays because `apple` still needs it. Deleting `apple` afterwards then removes the remaining branch. This is the intended behaviour and is covered by the tests.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
